@@ -1,4 +1,4 @@
-# modelAD_piplines for bulk short read RNA-seq data
+# Bulk short-read RNA-seq data
 
 ## Overview
 
