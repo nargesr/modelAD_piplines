@@ -1,6 +1,6 @@
 # Pipeline for analysing lond read data using long read Kallisto
 
-## setting up and install neccessary packages
+## Setting up and install neccessary packages
 
 ### Install LR kallisto
 
@@ -395,4 +395,4 @@ At the end, the structure of your files would be something like this:
 
 ### Concate count and tom matrices
 
-Once you have transcript-level count and tpm matrices for each sample, it's time to concat them. Please look at the (this notebook)[analysis_pipeline.ipynb] for more information.
+Once you have transcript-level count and tpm matrices for each sample, it's time to concat them. Please look at the [this notebook](analysis_pipeline.ipynb) for more information.
