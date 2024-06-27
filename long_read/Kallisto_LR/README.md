@@ -20,7 +20,11 @@ make
 
 1. [bustools](https://github.com/BUStools/bustools?tab=readme-ov-file#installation)
 2. [kb-python](https://github.com/pachterlab/kb_python?tab=readme-ov-file#installation)
-
+3. python packages
+    - pandas
+    - numpy
+    - anndata
+    - scanpy
 
 
 ## Making indices
