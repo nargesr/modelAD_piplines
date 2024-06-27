@@ -397,6 +397,6 @@ At the end, the structure of your files would be something like this:
 │   └── ad003_12670_lig-blk_t1.fastq
 ````
 
-### Concate count and tom matrices
+### Concate count and tpm matrices
 
 Once you have transcript-level count and tpm matrices for each sample, it's time to concat them. Please look at the [this notebook](analysis_pipeline.ipynb) for more information.
