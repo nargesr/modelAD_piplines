@@ -4,7 +4,7 @@
 
 ### Install LR kallisto
 
-LR-kallisto is located in [https://github.com/bound-to-love/kallisto.git](this repo)! and you can use the following commands for installation:
+LR-kallisto is located in [this repo](https://github.com/bound-to-love/kallisto.git) and you can use the following commands for installation:
 
 ```bash
 git clone https://github.com/bound-to-love/kallisto.git
