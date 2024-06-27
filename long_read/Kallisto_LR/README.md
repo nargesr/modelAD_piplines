@@ -4,7 +4,9 @@
 
 ### Install LR kallisto
 
-LR-kallisto is located in [this repo](https://github.com/bound-to-love/kallisto.git) and you can use the following commands for installation:
+LR-kallisto is located in [this repo](https://github.com/bound-to-love/kallisto.git).
+
+Follow commands for installation
 
 ```bash
 git clone https://github.com/bound-to-love/kallisto.git
@@ -14,10 +16,10 @@ cd build
 cmake ..
 make 
 ```
-### install other neccessary pakcages
+### Install other neccessary pakcages
 
-1. [https://github.com/BUStools/bustools?tab=readme-ov-file#installation](bustools)
-2. [https://github.com/pachterlab/kb_python?tab=readme-ov-file#installation](kb-python)
+1. [bustools](https://github.com/BUStools/bustools?tab=readme-ov-file#installation)
+2. [kb-python](https://github.com/pachterlab/kb_python?tab=readme-ov-file#installation)
 
 
 
