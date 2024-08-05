@@ -1,50 +1,26 @@
-# Pipeline for analysing lond read data using long read Kallisto
+# Running Kallisto long read version
 
-## Setting up and install neccessary packages
+Please make sure that you already installed neccassary packages.
 
-### Install kallisto (>= v0.51.0)
-
-<<<<<<< HEAD
-kallisto is located in [this repo](https://github.com/bound-to-love/kallisto.git).
-=======
-LR-kallisto is located in [this repo](https://github.com/pachterlab/kallisto).
->>>>>>> e11c58920ead4495018bffaf4d528850a012582b
-
-Follow commands for installation
+## Making indices
 
 ```bash
-git clone https://github.com/pachterlab/kallisto
-cd kallisto
-mkdir build
-cd build
-cmake -DMAX_KMER_SIZE=64 ..
-make 
-```
-### Install other neccessary pakcages
+#!/bin/sh
+#SBATCH -A model-ad_lab
+#SBATCH --cpus-per-task 10
+#SBATCH --output=kallisto_index_LR.out
+#SBATCH --error=kallisto_index_LR.err
+#SBATCH --time=1:00:00
+#SBATCH -J kallisto_index_LR
+#SBATCH --mail-type=START,END
+#SBATCH --partition=standard
 
-1. [bustools](https://github.com/BUStools/bustools?tab=readme-ov-file#installation)
-2. [kb-python](https://github.com/pachterlab/kb_python?tab=readme-ov-file#installation)
-3. python packages
-    - pandas
-    - numpy
-    - anndata
-    - scanpy
-
-
-## [Run Kallisto](kallisto-lr.md)
-
-- make indices
-- Quantify reads with kallisto
-
-<<<<<<< HEAD
-## Concate count and tpm matrices
-=======
 ref='path_to_refrence_genome'
 
-path_to_kallisto='kallisto/build/src/kallisto'
+path_to_lr_kallisto='kallisto/build/src/kallisto'
 
 #build index
-kb ref --kallisto ${path_to_kallisto} -i ${ref}_k-63.idx -k 63 -f1 ${ref}.cdna.fa -g ${ref}.t2g.txt ${ref}.genome.fa.gz ${ref}.annotation.gtf.gz --overwrite
+kb ref --kallisto ${path_to_lr_kallisto} -i ${ref}_k-63.idx -k 63 -f1 ${ref}.cdna.fa -g ${ref}.t2g.txt ${ref}.genome.fa.gz ${ref}.annotation.gtf.gz --overwrite
 
 ```
 
@@ -57,7 +33,7 @@ kb ref --kallisto ${path_to_kallisto} -i ${ref}_k-63.idx -k 63 -f1 ${ref}.cdna.f
 
 ## Quantification
 
-### Run lr-kallisto on bulk long read data
+### Run kallisto on bulk long read data
 
 This script will generate and submitt separete jobs for each sample to run lr-kallisto on bulk long read data to generate transcript-level count and tpm matrices: 
 
@@ -74,7 +50,7 @@ This script will generate and submitt separete jobs for each sample to run lr-ka
 
 ref='path_to_refrence_genome'
 reads='path_to_reads_file'
-path_to_kallisto='kallisto/build/src/kallisto'
+path_to_lr_kallisto='kallisto/build/src/kallisto'
 path_to_bustools='bustools/build/src/bustools'
 output='path_to_output'
 
@@ -109,7 +85,7 @@ do
     echo "${path_to_bustools} sort -t 32 ${output_sample}/output.bus -o ${output_sample}/sorted.bus" >> ${curr} 
     echo "${path_to_bustools} count ${output_sample}/sorted.bus -t ${output_sample}/transcripts.txt  -e ${output_sample}/matrix.ec  -o ${output_sample}/count --cm -m -g ${ref}.t2g.txt" >> ${curr}
 
-    echo "${path_to_kallisto} quant-tcc -t 32 --long -P ONT ${output_sample}/count.mtx -i ${ref}_k-63.idx -f ${output_sample}/flens.txt -e ${output_sample}/count.ec.txt -o ${output_sample}" >> ${curr}
+    echo "${path_to_lr_kallisto} quant-tcc -t 32 --long -P ONT ${output_sample}/count.mtx -i ${ref}_k-63.idx -f ${output_sample}/flens.txt -e ${output_sample}/count.ec.txt -o ${output_sample}" >> ${curr}
     
     chmod +x ${curr}
     sbatch ${curr}
@@ -395,8 +371,3 @@ At the end, the structure of your files would be something like this:
 │   ├── ad003_12660_lig-blk_t1.fastq
 │   └── ad003_12670_lig-blk_t1.fastq
 ````
-
-### Concate count and tpm matrices
->>>>>>> e11c58920ead4495018bffaf4d528850a012582b
-
-Once you have transcript-level count and tpm matrices for each sample, it's time to concat them. Please look at the [this notebook](analysis_pipeline.ipynb) for more information.
