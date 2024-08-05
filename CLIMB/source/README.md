@@ -1,4 +1,4 @@
-# ClimbR
+# ClimbR (Adopted from [this repo](https://github.com/TheJacksonLaboratory/ClimbR/tree/master)
 
 R API client for [Climb.bio](https://api.climb.bio/docs/index.html).  
 Still in development; not fully tested.  
