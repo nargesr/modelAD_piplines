@@ -4,16 +4,16 @@
 
 ### Install LR kallisto
 
-LR-kallisto is located in [this repo](https://github.com/bound-to-love/kallisto.git).
+LR-kallisto is located in [this repo](https://github.com/pachterlab/kallisto).
 
 Follow commands for installation
 
 ```bash
-git clone https://github.com/bound-to-love/kallisto.git
+git clone https://github.com/pachterlab/kallisto
 cd kallisto
 mkdir build
 cd build
-cmake ..
+cmake -DMAX_KMER_SIZE=64 ..
 make 
 ```
 ### Install other neccessary pakcages
@@ -42,10 +42,10 @@ make
 
 ref='path_to_refrence_genome'
 
-path_to_lr_kallisto='kallisto/build/src/kallisto'
+path_to_kallisto='kallisto/build/src/kallisto'
 
 #build index
-kb ref --kallisto ${path_to_lr_kallisto} -i ${ref}_k-63.idx -k 63 -f1 ${ref}.cdna.fa -g ${ref}.t2g.txt ${ref}.genome.fa.gz ${ref}.annotation.gtf.gz --overwrite
+kb ref --kallisto ${path_to_kallisto} -i ${ref}_k-63.idx -k 63 -f1 ${ref}.cdna.fa -g ${ref}.t2g.txt ${ref}.genome.fa.gz ${ref}.annotation.gtf.gz --overwrite
 
 ```
 
@@ -75,7 +75,7 @@ This script will generate and submitt separete jobs for each sample to run lr-ka
 
 ref='path_to_refrence_genome'
 reads='path_to_reads_file'
-path_to_lr_kallisto='kallisto/build/src/kallisto'
+path_to_kallisto='kallisto/build/src/kallisto'
 path_to_bustools='bustools/build/src/bustools'
 output='path_to_output'
 
@@ -110,7 +110,7 @@ do
     echo "${path_to_bustools} sort -t 32 ${output_sample}/output.bus -o ${output_sample}/sorted.bus" >> ${curr} 
     echo "${path_to_bustools} count ${output_sample}/sorted.bus -t ${output_sample}/transcripts.txt  -e ${output_sample}/matrix.ec  -o ${output_sample}/count --cm -m -g ${ref}.t2g.txt" >> ${curr}
 
-    echo "${path_to_lr_kallisto} quant-tcc -t 32 --long -P ONT ${output_sample}/count.mtx -i ${ref}_k-63.idx -f ${output_sample}/flens.txt -e ${output_sample}/count.ec.txt -o ${output_sample}" >> ${curr}
+    echo "${path_to_kallisto} quant-tcc -t 32 --long -P ONT ${output_sample}/count.mtx -i ${ref}_k-63.idx -f ${output_sample}/flens.txt -e ${output_sample}/count.ec.txt -o ${output_sample}" >> ${curr}
     
     chmod +x ${curr}
     sbatch ${curr}
