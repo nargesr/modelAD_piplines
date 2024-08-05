@@ -27,10 +27,12 @@ make
     - scanpy
 
 
-## [Run Kallisto](kallisto-lr.md)
+## Run Kallisto
 
 - make indices
 - Quantify reads with kallisto
+
+More info: [Run Kallisto](kallisto-lr.md)
 
 ## Concate count and tpm matrices
 
