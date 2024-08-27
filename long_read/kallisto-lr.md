@@ -15,37 +15,19 @@ Please make sure that you already installed neccassary packages.
 #SBATCH --mail-type=START,END
 #SBATCH --partition=standard
 
-ref='path_to_refrence_genome'
-
-path_to_lr_kallisto='kallisto/build/src/kallisto'
-
-#!/bin/sh
-#SBATCH -A model-ad_lab
-#SBATCH --cpus-per-task 10
-#SBATCH --output=kallisto.out
-#SBATCH --error=kallisto.err
-#SBATCH --time=1:00:00
-#SBATCH -J kallisto_index
-#SBATCH --mail-type=START,END
-#SBATCH --partition=standard
-
-ref='name_refrence_genome #'mm39'
-ref_genome='path_to_refrence_genome' #'mm39.fa.gz'
-ref_annot='path_to_gencode_gtf' #'gencode.vM21.primary_assembly.annotation_UCSC_names.gtf.gz
+ref='name_refrence_genome #mm39
+ref_genome='path_to_refrence_genome' #mm39.fa.gz
+ref_annot='path_to_gencode_gtf' #gencode.vM32.chr_patch_hapl_scaff.annotation.gtf.gz
 
 path_to_kallisto='kallisto/build/src/kallisto'
 path_to_bustools='bustools/build/src/bustools'
 
 #build index
 kb ref --kallisto ${path_to_kallisto} \
---workflow=nac \
 -i ${ref}_k-63.idx \
 -k 63 \
 -f1 ${ref}.cdna.fa \
--f2 ${ref}.nascent.fa \
 -g ${ref}.t2g.txt \
--c1 ${ref}.c1 \
--c2 ${ref}.c2 \
 ${ref_genome} \
 ${ref_annot} \
 --overwrite
@@ -61,9 +43,9 @@ ${ref_annot} \
 
 ## Quantification
 
-### Run kallisto on bulk long read data
+### Run Kallisto on bulk long-read data
 
-This script will generate and submitt separete jobs for each sample to run lr-kallisto on bulk long read data to generate transcript-level count and tpm matrices: 
+This script will generate and submit separete jobs for each sample to run lr-Kallisto on bulk long read data to generate transcript-level count and tpm matrices: 
 
 ```bash
 #!/bin/sh
@@ -76,15 +58,15 @@ This script will generate and submitt separete jobs for each sample to run lr-ka
 #SBATCH --mail-type=START,END
 #SBATCH --partition=standard
 
-ref='name_refrence_genome #'mm39'
-ref_genome='path_to_refrence_genome' #'mm39.fa.gz'
-ref_annot='path_to_gencode_gtf' #'gencode.vM21.primary_assembly.annotation_UCSC_names.gtf.gz
-reads='path_to_reads_file' #"/share/crsp/lab/model-ad/nargesr/kallisto_lr/AD003_Aug24/rawfastq/fastqs"
+ref='name_refrence_genome #mm39
+ref_genome='path_to_refrence_genome' #mm39.fa.gz
+ref_annot='path_to_gencode_gtf' #gencode.vM32.chr_patch_hapl_scaff.annotation.gtf.gz
+reads='path_to_reads_file' #"/share/crsp/lab/model-ad/nargesr/kallisto_lr/AD003_Sep24_mm39/fastqs"
 
 path_to_kallisto='kallisto/build/src/kallisto'
 path_to_bustools='bustools/build/src/bustools'
 
-output='path_to_output' #'/share/crsp/lab/model-ad/nargesr/kallisto_lr/AD003_Aug24/output'
+output='path_to_output' #'/share/crsp/lab/model-ad/nargesr/kallisto_lr/AD003_Sep24_mm39/output'
 
 #pseudoalign reads
 COUNTER=1
@@ -93,14 +75,28 @@ for line in $(cat sample_name.txt)
 do
     # Use awk to parse the columns from each line
     sample_name=$(echo $line | awk '{print $1}')
-    fastq1=${reads}/$(echo $line | awk '{print $2}')
-    fastq2=${reads}/$(echo $line | awk '{print $3}')
+    fastqs_num=$(echo $line | awk '{print $2}')
+    fastqs=()
+    for i in $(seq 1 $fastqs_num);
+    do
+      	fastq_index=$((i+2))
+        fastqs+=(${reads}/$(echo $line | awk -v idx=$fastq_index '{print $idx}'))
+    done
     printf "Sample: %s\n" "$sample_name"
-    printf "Fastq1: %s\n" "$fastq1"
-    printf "Fastq2: %s\n" "$fastq2"
+    printf "Fastqs: %s\n" "${fastqs[@]}"
+
+    # Combine all fastqs into a single string with spaces
+    fastqs_string=$(printf "%s " "${fastqs[@]}")
+    
+    # Remove trailing space
+    fastqs_string=$(echo $fastqs_string | sed 's/ *$//')
+    printf "cat $fastqs_string > ${reads}/${sample_name}.fastq.gz\n"
+    cat "${fastqs[@]}" > ${reads}/${sample_name}.fastq.gz
+
     scriptName=${sample_name}
     curr=${sample_name}.sh
     output_sample=${output}_${sample_name}
+    fastq_file=${reads}/${sample_name}.fastq.gz
     
     echo '#!/bin/bash' > ${curr}
     echo '#SBATCH -A model-ad_lab' >> ${curr}
@@ -118,7 +114,7 @@ do
     echo "path_to_bustools='bustools/build/src/bustools'" >> ${curr}
     echo "output='${output_sample}'" >> ${curr}
     
-    echo "${path_to_kallisto} bus --long --threshold 0.8 -x bulk -i ${ref}_k-63.idx -o ${output_sample} ${fastq1} ${fastq1} ${name} -t 8" >> ${curr}
+    echo "${path_to_kallisto} bus --long --threshold 0.8 -x bulk -i ${ref}_k-63.idx -o ${output_sample} ${fastq_file} ${name} -t 8" >> ${curr}
 
     echo "${path_to_bustools} sort -t 32 ${output_sample}/output.bus -o ${output_sample}/sorted.bus" >> ${curr} 
     echo "${path_to_bustools} count ${output_sample}/sorted.bus -t ${output_sample}/transcripts.txt  -e ${output_sample}/matrix.ec  -o ${output_sample}/count --cm -m -g ${ref}.t2g.txt" >> ${curr}
@@ -135,21 +131,21 @@ done
 
 ```
 
-`sample_name.txt` used in the script contains the name of the sample followed by the corresponding fastq files in each line and it should look like this:
+`sample_name.txt` used in the script contains the name of the sample followed by the number of fastq files we have for the samples and then the corresponding fastq files in each line and it should look like this:
 
 ```
-ad003_11616_lig-blk   ad003_11616_lig-blk_1.fastq.gz   ad003_11616_lig-blk_2.fastq.gz
-ad003_11617_lig-blk   ad003_11617_lig-blk_1.fastq.gz   ad003_11617_lig-blk_2.fastq.gz
-ad003_11625_lig-blk   ad003_11625_lig-blk_1.fastq.gz   ad003_11625_lig-blk_2.fastq.gz
-ad003_11627_lig-blk   ad003_11627_lig-blk_1.fastq.gz   ad003_11627_lig-blk_2.fastq.gz
-ad003_11628_lig-blk   ad003_11628_lig-blk_1.fastq.gz   ad003_11628_lig-blk_2.fastq.gz
-ad003_11629_lig-blk   ad003_11629_lig-blk_1.fastq.gz   ad003_11629_lig-blk_2.fastq.gz
-ad003_11517_lig-blk   ad003_11517_lig-blk_1.fastq.gz   ad003_11517_lig-blk_2.fastq.gz
-ad003_11648_lig-blk   ad003_11648_lig-blk_1.fastq.gz   ad003_11648_lig-blk_2.fastq.gz
-ad003_11649_lig-blk   ad003_11649_lig-blk_1.fastq.gz   ad003_11649_lig-blk_2.fastq.gz
-ad003_11659_lig-blk   ad003_11659_lig-blk_1.fastq.gz   ad003_11659_lig-blk_2.fastq.gz
-ad003_11660_lig-blk   ad003_11660_lig-blk_1.fastq.gz   ad003_11660_lig-blk_2.fastq.gz
-ad003_11670_lig-blk   ad003_11670_lig-blk_1.fastq.gz   ad003_11670_lig-blk_2.fastq.gz
+ad003_11616_lig-blk   2   ad003_11616_lig-blk_1.fastq.gz   ad003_11616_lig-blk_2.fastq.gz
+ad003_11617_lig-blk   2   ad003_11617_lig-blk_1.fastq.gz   ad003_11617_lig-blk_2.fastq.gz
+ad003_11625_lig-blk   2   ad003_11625_lig-blk_1.fastq.gz   ad003_11625_lig-blk_2.fastq.gz
+ad003_11627_lig-blk   2   ad003_11627_lig-blk_1.fastq.gz   ad003_11627_lig-blk_2.fastq.gz
+ad003_11628_lig-blk   2   ad003_11628_lig-blk_1.fastq.gz   ad003_11628_lig-blk_2.fastq.gz
+ad003_11629_lig-blk   2   ad003_11629_lig-blk_1.fastq.gz   ad003_11629_lig-blk_2.fastq.gz
+ad003_12517_lig-blk   2   ad003_12517_lig-blk_1.fastq.gz   ad003_12517_lig-blk_2.fastq.gz
+ad003_12648_lig-blk   2   ad003_12648_lig-blk_1.fastq.gz   ad003_12648_lig-blk_2.fastq.gz
+ad003_12649_lig-blk   2   ad003_12649_lig-blk_1.fastq.gz   ad003_12649_lig-blk_2.fastq.gz
+ad003_12659_lig-blk   2   ad003_12659_lig-blk_1.fastq.gz   ad003_12659_lig-blk_2.fastq.gz
+ad003_12660_lig-blk   2   ad003_12660_lig-blk_1.fastq.gz   ad003_12660_lig-blk_2.fastq.gz
+ad003_12670_lig-blk   2   ad003_12670_lig-blk_1.fastq.gz   ad003_12670_lig-blk_2.fastq.gz
 ```
 
 In the end, the structure of your files would be something like this:
