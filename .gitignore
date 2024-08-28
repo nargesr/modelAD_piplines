@@ -3,6 +3,11 @@
 **/.ipynb_checkpoints
 **/.Rhistory
 ***/.Rhistory
+***/__pycache__
+
+***/*.gtf
+***/output.bus
+
 
 sr_split_seq/kallisto/
 sr_split_seq/igvf/
