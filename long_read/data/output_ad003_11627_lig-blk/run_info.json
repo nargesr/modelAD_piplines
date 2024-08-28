@@ -1,0 +1,14 @@
+{
+	"n_targets": 149384,
+	"n_bootstraps": 0,
+	"n_processed": 12227190,
+	"n_pseudoaligned": 6939716,
+	"n_unique": 5288250,
+	"p_pseudoaligned": 56.8,
+	"p_unique": 43.2,
+	"kallisto_version": "0.51.0",
+	"index_version": 13,
+	"k-mer length": 63,
+	"start_time": "Wed Aug 28 11:14:07 2024",
+	"call": "/share/crsp/lab/model-ad/nargesr/kallisto/build/src/kallisto bus --long --threshold 0.8 -x bulk -i /share/crsp/lab/model-ad/nargesr/kallisto_lr/ref_Sep24_mm39/mm39_k-63.idx -o /share/crsp/lab/model-ad/nargesr/kallisto_lr/AD003_Sep24_mm39/output_ad003_11627_lig-blk -t 8 /share/crsp/lab/model-ad/nargesr/kallisto_lr/AD003_Sep24_mm39/fastqs/ad003_11627_lig-blk.fastq.gz"
+}

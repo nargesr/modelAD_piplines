@@ -1,6 +1,6 @@
-# Pipeline for analyzing long read data using long read Kallisto
+# Pipeline for analyzing bulk long read RNA_seq data using long read Kallisto
 
-## Setting up and installing neccessary packages
+## Setting up and installing necessary packages
 
 ### Install kallisto (>= v0.51.0)
 
@@ -24,8 +24,7 @@ make
     - pandas
     - numpy
     - anndata
-    - scanpy
-
+    - PyDESeq2
 
 ## overview of pipeline
 
@@ -39,6 +38,10 @@ make
     - more information on [this notebook](analysis_pipeline.ipynb)
 
 - differential isoform expression (DIE) analysis
+    - using [PyDESeq2](https://pydeseq2.readthedocs.io/en/latest/)
+    - more information on [this notebook](analysis_pipeline.ipynb)
+
+- differential gene expression (DGE) analysis
     - using [PyDESeq2](https://pydeseq2.readthedocs.io/en/latest/)
     - more information on [this notebook](analysis_pipeline.ipynb)
 
