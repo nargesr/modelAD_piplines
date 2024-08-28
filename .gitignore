@@ -5,6 +5,7 @@
 ***/.Rhistory
 ***/__pycache__
 
+***/*.gtf.gz
 ***/*.gtf
 ***/output.bus
 
