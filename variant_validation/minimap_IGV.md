@@ -104,6 +104,12 @@ ad003_12660_lig-blk   2   ad003_12660_lig-blk_1.fastq.gz   ad003_12660_lig-blk_2
 ad003_12670_lig-blk   2   ad003_12670_lig-blk_1.fastq.gz   ad003_12670_lig-blk_2.fastq.gz
 ```
 
+## Visualize reads using IGV
+
+Once you have the sorted bam file along with BAI index, you can look at the individual reads through IGV. 
+You should also use the same GTF and FASTA files that were used to map the reads.
+
+
 In the end, the structure of your files would be something like this:
 
 ````
