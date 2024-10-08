@@ -6,19 +6,22 @@ Pipelines for quantification and analyzing model AD data in the Mortazavi lab
 - Fetching information of mice from [CLIMB](https://climb.bio)
 
 - [Bulk Short Read RNA_seq Analysis](short_read/): Analysing bulk short read RNA_seq using RSEM output
-    - Aggregating TPM and count of all mice in the same study
-    - Filter metadata and genes (optional)
-    - Differential Expression gene (DEG) analysis ([EdgR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) and [PyDESeq2](https://pydeseq2.readthedocs.io/en/latest/))
-    - Weighted correlation network analysis ([PyWGCNA](https://github.com/mortazavilab/PyWGCNA))
+  - Aggregating TPM and count of all mice in the same study
+  - Filter metadata and genes (optional)
+  - Differential Expression gene (DEG) analysis ([EdgR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) and [PyDESeq2](https://pydeseq2.readthedocs.io/en/latest/))
+  - Weighted correlation network analysis ([PyWGCNA](https://github.com/mortazavilab/PyWGCNA))
 
-- [Bulk Long Read RNA_seq Analysis](long_read/): Analysing bulk long read RNA_seq using Kallisto
+- [Bulk Long Read RNA_seq Analysis](long_read): Analysing bulk long read RNA_seq using Kallisto
   - Quantify reads using Kallisto long read
   - Aggregating TPM and count of all mice in the same study
   - Differential Gene Expression (DGE) analysis ([PyDESeq2](https://pydeseq2.readthedocs.io/en/latest/))
   - Differential Expression Isoform (DIE) analysis ([PyDESeq2](https://pydeseq2.readthedocs.io/en/latest/))
   - SWAN report (_under construction_)
   
-- Validating new mouse model using bulk long read RNA_seq (_under construction_)
+- [Validating new mouse model using bulk long read RNA_seq](variant_validation): Validate new variant splicing through bulk long read RNA_seq using minimap and IGV
+  - Prepare custom GTF and Fasta file if we have chimeric gene or humanized gene
+  - Map reads using [minimap2](https://github.com/lh3/minimap2)
+  - Visualize the coverage tracks using [IGV](https://igv.org/)
  
 
 
