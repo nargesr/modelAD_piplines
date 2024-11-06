@@ -1,9 +1,12 @@
 # modelAD_piplines
 
-Pipelines for quantification and analyzing model AD data in the Mortazavi lab
+
+Pipelines for quantifying, analyzing, and submitting model-AD data in the Mortazavi lab
 
 ## Table of Content
-- Fetching information of mice from [CLIMB](https://climb.bio)
+- [Prepare metadata to upload the data into Synapse](CLIMB/):
+  - [Fetching information on mice from CLIMB](CLIMB/example/)
+  - prepare metadata table per each assay
 
 - [Bulk Short Read RNA_seq Analysis](short_read/): Analysing bulk short read RNA_seq using RSEM output
   - Aggregating TPM and count of all mice in the same study
