@@ -46,7 +46,7 @@ make
     - more information on [this notebook](analysis_pipeline.ipynb)
 
 - SWAN reports
-    - under construction
+    - Install voila (conda install ipykernel python=3.9 jupyter notebook jupyterlab voila)
 
 ## Directory structure
 
