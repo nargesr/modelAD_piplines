@@ -7,7 +7,7 @@
 ## parsed data is returned as dataframe with records in rows and fields in columns
 ## url, errors, and status code returned as strings
 
-source("https://raw.github.com/TheJacksonLaboratory/ClimbR/master/getToken.R")
+source("https://raw.githubusercontent.com/nargesr/modelAD_piplines/refs/heads/main/CLIMB/source/getToken.R")
 climbRequest <- function(method, endpointPath, queryList=NULL) {
   
   # check if there is a token in the environment
