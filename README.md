@@ -19,10 +19,10 @@ Pipelines for quantifying, analyzing, and submitting model-AD data in the Mortaz
   - Aggregating TPM and count of all mice in the same study
   - Differential Gene Expression (DGE) analysis ([PyDESeq2](https://pydeseq2.readthedocs.io/en/latest/))
   - Differential Expression Isoform (DIE) analysis ([PyDESeq2](https://pydeseq2.readthedocs.io/en/latest/))
-  - SWAN report (_under construction_)
+  - SWAN report ([SWAN_vis](https://github.com/mortazavilab/swan_vis))
   
 - [Validating new mouse model using bulk long read RNA_seq](variant_validation): Validate new variant splicing through bulk long read RNA_seq using minimap and IGV
-  - Prepare custom GTF and Fasta file if we have chimeric gene or humanized gene
+  - Prepare custom GTF and Fasta files if we have a chimeric gene or humanized gene
   - Map reads using [minimap2](https://github.com/lh3/minimap2)
   - Visualize the coverage tracks using [IGV](https://igv.org/)
  
