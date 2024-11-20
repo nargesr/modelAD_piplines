@@ -46,7 +46,8 @@ make
     - more information on [this notebook](analysis_pipeline.ipynb)
 
 - SWAN reports
-    - Install voila (conda install ipykernel python=3.9 jupyter notebook jupyterlab voila)
+    - using [SWAN_vis](https://github.com/mortazavilab/swan_vis)
+    - more information on [this notebook](swan/create_swan.ipynb)
 
 ## Directory structure
 
