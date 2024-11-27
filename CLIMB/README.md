@@ -9,6 +9,7 @@ In order to prepare the metadata to upload to Synapse, we need to make multiple 
 - Assay_metadata: such as RNAseq_metadata contains information regarding the assay
 
 one of the time-consuming parts of preparing necessary metadata is grabbing information from [CLIMB](https://climb.bio/).
+
 [climbGET_example.R](example/climbGET_example.R) is an example of how you can access information from CLIMB by passing animal IDs as a list.
 
 
